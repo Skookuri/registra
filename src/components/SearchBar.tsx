@@ -41,45 +41,46 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="flex flex-col items-center">
-      {/* Input container with icon */}
-      <div className="relative w-72">
-        <input
-          type="text"
-          value={inputText}
-          onChange={handleInputChange}
-          onFocus={() => setShowDropdown(true)} // Show dropdown on input focus
-          onBlur={() => setTimeout(() => setShowDropdown(false), 200)} // Delay hiding dropdown to allow clicking options
-          className="p-2 pl-10 border-2 border-blue-300 bg-blue-900 rounded-lg mb-3 w-full text-white placeholder-gray-400"
-          placeholder="Type to search"
-        />
-        <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+    <div className="flex flex-row items-center justify-center">
+      <div className="relative">
+        {/* Input container with icon */}
+        <div className="relative w-72">
+          <input
+            type="text"
+            value={inputText}
+            onChange={handleInputChange}
+            onFocus={() => setShowDropdown(true)} // Show dropdown on input focus
+            onBlur={() => setTimeout(() => setShowDropdown(false), 200)} // Delay hiding dropdown to allow clicking options
+            className="p-2 pl-10 border-2 border-blue-300 bg-blue-900 rounded-t-lg w-full text-white placeholder-blue-400"
+            placeholder="Type to search"
+          />
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300" />
+        </div>
+
+        {/* Dropdown menu */}
+        <div
+          className={`absolute top-full w-72 border-2 border-t-0 border-blue-300 bg-blue-900 rounded-b-lg shadow-lg max-h-40 overflow-y-auto transition-opacity duration-200 ${
+            showDropdown ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+        >
+          {filteredOptions.length > 0 ? (
+            filteredOptions.map((option, index) => (
+              <div
+                key={index}
+                className="p-2 cursor-pointer hover:bg-blue-300 text-white hover:text-blue-950"
+                onClick={() => handleOptionClick(option)}
+              >
+                {option}
+              </div>
+            ))
+          ) : (
+            <div className="p-2 text-blue-400">No options found</div>
+          )}
+        </div>
       </div>
 
-      {/* Dropdown menu */}
-      {showDropdown && filteredOptions.length > 0 && (
-        <div className="bg-blue-900 border-2 border-blue-300 rounded-b-lg shadow-lg w-72 max-h-40 overflow-y-auto">
-          {filteredOptions.map((option, index) => (
-            <div
-              key={index}
-              className="p-2 cursor-pointer hover:bg-blue-300 text-white hover:text-blue-950"
-              onClick={() => handleOptionClick(option)}
-            >
-              {option}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* No options message */}
-      {showDropdown && filteredOptions.length === 0 && (
-        <div className="bg-white border border-gray-300 rounded-lg shadow-lg w-72 p-2 text-gray-500">
-          No options found
-        </div>
-      )}
-
       {/* Button */}
-      <button className="bg-blue-300 font-bold p-3 rounded-lg text-xl border-2 border-blue-300 text-blue-950 hover:text-blue-300 hover:bg-blue-950 duration-500 mt-4">
+      <button className="bg-blue-300 font-bold p-2 rounded-lg text-xl border-2 border-blue-300 text-blue-950 hover:text-white hover:bg-blue-950 duration-500 ml-4">
         Select College
       </button>
     </div>
